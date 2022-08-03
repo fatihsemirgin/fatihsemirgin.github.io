@@ -1,37 +1,25 @@
-## Welcome to GitHub Pages and Fatih Semirgin
+<h1 align="center">Hi 👋, I'm Fatih Semirgin</h1>
+<h3 align="center">I'm a computer engineering student at Dokuz Eylul University.</h3>
 
-You can use the [editor on GitHub](https://github.com/fatihsemirgin/fatihsemirgin.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
+- 🔭 I’m currently working on **on web (Fronted for now)**
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+- 🌱 I’m currently learning **html css javascript**
 
-### Markdown
+- 📫 How to reach me **fatih.semirgin@gmail.com**
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+<h3 align="left">Connect with me:</h3>
+<p align="left">
+<a href="https://twitter.com/fatihsemirgin" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="fatihsemirgin" height="30" width="40" /></a>
+<a href="https://www.linkedin.com/in/fatih-semirgin" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="www.linkedin.com/in/fatih-semirgin" height="30" width="40" /></a>
+<a href="https://www.instagram.com/fatih_semirgin/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="https://www.instagram.com/fatih_semirgin/" height="30" width="40" /></a>
+<a href="https://www.hackerrank.com/fatih_semirgin" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/hackerrank.svg" alt="https://www.hackerrank.com/fatih_semirgin" height="30" width="40" /></a>
+</p>
 
-```markdown
-Syntax highlighted code block
+<h3 align="left">Languages and Tools:</h3>
+<p align="left"> <a href="https://www.cprogramming.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/c/c-original.svg" alt="c" width="40" height="40"/> </a> <a href="https://www.w3schools.com/cs/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg" alt="csharp" width="40" height="40"/> </a> <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a> <a href="https://www.java.com" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> </a> <a href="https://www.python.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="python" width="40" height="40"/> </a> </p>
 
-# Header 1
-## Header 2
-### Header 3
+<p><img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=fatihsemirgin&show_icons=true&locale=en&layout=compact" alt="fatihsemirgin" /></p>
 
-- Bulleted
-- List
+<p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=fatihsemirgin&show_icons=true&locale=en" alt="fatihsemirgin" /></p>
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/fatihsemirgin/fatihsemirgin.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=fatihsemirgin&" alt="fatihsemirgin" /></p>
