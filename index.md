@@ -21,6 +21,4 @@
 
 <p><img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=fatihsemirgin&show_icons=true&locale=en&layout=compact" alt="fatihsemirgin" /></p>
 
-<p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=fatihsemirgin&show_icons=true&locale=en" alt="fatihsemirgin" /></p>
 
-<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=fatihsemirgin&" alt="fatihsemirgin" /></p>
