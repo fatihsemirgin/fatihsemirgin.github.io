@@ -11,7 +11,7 @@
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
-<a href="https://github.com/fatihsemirgin" target="_blank" rel="noreferrer"> <img align="center" src="https://play-lh.googleusercontent.com/PCpXdqvUWfCW1mXhH1Y_98yBpgsWxuTSTofy3NGMo9yBTATDyzVkqU580bfSln50bFU" alt="github" width="40" height="30"/> </a>  
+<a href="https://github.com/fatihsemirgin" target="_blank" rel="noreferrer"> <img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/github.svg" alt="github" width="40" height="30"/> </a>  
 <a href="https://twitter.com/fatihsemirgin" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="fatihsemirgin" height="30" width="40" /></a>
 <a href="https://www.linkedin.com/in/fatih-semirgin" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="www.linkedin.com/in/fatih-semirgin" height="30" width="40" /></a>
 <a href="https://www.instagram.com/fatih_semirgin/" target="_blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="https://www.instagram.com/fatih_semirgin/" height="30" width="40" /></a>
