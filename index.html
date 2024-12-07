@@ -1,139 +1,263 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1" name="viewport">
-    <title>AHMET❄YİĞİT</title>
-    <meta name="description"
-          content="This page is a demo of Snowfall.js, a JavaScript script that creates a realistic and customizable snowfall effect on your website. You can adjust various parameters of the snowfall, such as the number, size, speed, color and text of the snowflakes. You can also see the source code and documentation of the script on GitHub."/>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" rel="stylesheet">
-</head>
-<body>
-<div class="container mt-3 mb-3 d-none">
-    <div class="row">
-        <div class="col">
-            <h1>Snowfall demo</h1>
-            <p>With this page, you can customize various parameters of the snowfall, such as the number, size, speed,
-                color and text of the snowflakes. You can enter the desired values in the form below and click the
-                "Accept" button to apply the changes. You can also click the "Default" button to return to the initial
-                settings. You will see how your snowfall will be animated on the background of your page. This is a fun
-                and interesting way to decorate your website.</p>
-            <p>This script was created using JavaScript and HTML5 canvas. You can find the source code and detailed
-                documentation at <a href="https://github.com/Andrey-1988-dev/snowfall-js">snowfall-js</a>. You can
-                freely use, modify and
-                distribute this script under the GPL-3.0 license. If you liked this script, you can support the author
-                by leaving a star or a comment on GitHub.</p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <form class="row g-3" id="form">
-                <div class="col-md-6">
-                    <label class="form-label" for="count">Number of snowflakes (count)</label>
-                    <input class="form-control" id="count" name="count" type="number" value="100">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="text">Text for a snowflake (can be any symbol or text) (text)</label>
-                    <input class="form-control" id="text" name="text" type="text" value="❄">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="color">Color of a snowflake in HEX format (color)</label>
-                    <input class="form-control" id="color" name="color" style="height: 2.5em;" type="color"
-                           value="#99ccff">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="zIndex">Z-index for the snowflakes canvas (zIndex)</label>
-                    <input class="form-control" id="zIndex" name="zIndex" type="number" value="1000">
-                </div>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mutlu Yıllar</title>
+    <link
+      crossorigin="anonymous"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-                <div class="col-md-6">
-                    <label class="form-label" for="minRadius">Minimum radius of a snowflake in pixels
-                        (minRadius)</label>
-                    <input class="form-control" id="minRadius" name="minRadius" type="number" value="10">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="maxRadius">Maximum radius of a snowflake in pixels
-                        (maxRadius)</label>
-                    <input class="form-control" id="maxRadius" name="maxRadius" type="number" value="30">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="minSpeed">Minimum speed of a snowflake in pixels per frame
-                        (minSpeed)</label>
-                    <input class="form-control" id="minSpeed" name="minSpeed" type="number" value="3">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="maxSpeed">Maximum speed of a snowflake in pixels per frame
-                        (maxSpeed)</label>
-                    <input class="form-control" id="maxSpeed" name="maxSpeed" type="number" value="10">
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Accept</button>
-                    <button class="btn btn-secondary" id="default" type="button">Default</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<script crossorigin="anonymous"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="snowfall.js"></script>
-<script>
-    
-    let defaultParams = {
-        count: "60", // number of snowflakes
-        minRadius: "10", // minimum radius of a snowflake in pixels
-        maxRadius: "30", // maximum radius of a snowflake in pixels
-        minSpeed: "3", // minimum speed of a snowflake in pixels per frame
-        maxSpeed: "10", // maximum speed of a snowflake in pixels per frame
-        text: "❄AHMET❄YİĞİT❄", // text for a snowflake (can be any symbol or text)
-        color: "#99ccff", // color of a snowflake in HEX format
-        zIndex: "1000" // z-index for the snowflakes canvas
-    };
+      body {
+        font-family: "Arial", sans-serif;
+        background: linear-gradient(
+          to bottom,
+          #1e3c72,
+          #2a5298
+        ); /* Kış temasına uygun mavi tonlar */
+        color: #ffffff;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
 
-    
-    let snowfall = new Snowfall();
+      header {
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+        text-align: center;
+      }
 
-    
-    let form = document.getElementById("form");
-    
-    let defaultButton = document.getElementById("default");
+      h3 {
+        font-size: 3rem;
+        color: #f8f8f8;
+        text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        animation: glow 2s ease-in-out infinite alternate;
+      }
 
-   
-    form.addEventListener("submit", event => {
-        
-        event.preventDefault();
-        
-        let newParams = {};
-       
-        for (let input of form.elements) {
-            
-            if (input.name) {
-                newParams[input.name] = input.value;
-            }
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 10px #ffffff, 0 0 20px #ff4e50, 0 0 30px #ff4e50,
+            0 0 40px #ff4e50;
         }
-
-        
-        snowfall.destroy();
-       
-        snowfall = new Snowfall(newParams);
-    });
-
-    
-    defaultButton.addEventListener("click", () => {
-        
-        snowfall.destroy();
-        
-        snowfall = new Snowfall();
-        
-        for (let input of form.elements) {
-           
-            if (input.name) {
-                input.value = defaultParams[input.name];
-            }
+        to {
+          text-shadow: 0 0 20px #ffffff, 0 0 30px #ff4e50, 0 0 40px #ff4e50,
+            0 0 50px #ff4e50;
         }
-    });
-</script>
-</body>
+      }
+
+      /* Kar Yağışı */
+      .snowflake {
+        position: absolute;
+        top: -10px;
+        font-size: 1rem;
+        color: #ffffff;
+        opacity: 0.8;
+        animation: fall linear infinite;
+      }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        100% {
+          transform: translateY(100vh) rotate(360deg);
+        }
+      }
+
+      /* Kar Tanelerinin Rassallığı */
+      @keyframes drift {
+        0% {
+          transform: translateX(0);
+        }
+        50% {
+          transform: translateX(20px);
+        }
+        100% {
+          transform: translateX(0);
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .card-img-top {
+          width: 100%;
+          height: 50vw;
+          object-fit: cover;
+        }
+      }
+      .content {
+        width: 50%;
+        margin: 0 auto;
+        font-size: 1rem;
+      }
+      .label {
+        font-weight: bold;
+      }
+      .red {
+        color: red;
+      }
+      .audio-control {
+        /* position: fixed; */
+        /* top: 20px; */
+        /* left: 20px; */
+        background-color: #ff4e50;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s;
+      }
+
+      .audio-control:hover {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="mt-4 mb-4">
+      <h3 class="text-center">❄️ Mutlu Yıllar ❄️</h3>
+    </header>
+    <div class="d-flex justify-content-center d-none">
+      <audio id="background-audio" loop>
+        <source
+          src="https://csschristmascalendar.com/assets/jingle-bells.mp3"
+          type="audio/mpeg"
+        />
+        Tarayıcınız ses dosyasını desteklemiyor.
+      </audio>
+
+      <!-- Ses kontrol butonu -->
+      <button class="audio-control" id="audio-toggle">🔈</button>
+    </div>
+    <div class="container">
+      <div class="row justify-content-center align-items-top">
+        <div class="col-6 d-flex justify-content-center">
+          <div class="card" style="width: 18rem">
+            <img src="/img1.png" class="card-img-top img-fluid" alt="..." />
+            <div class="card-header">
+              <h5 class="card-title text-center fst-italic">
+                Ahmet<br />Başbuğ
+              </h5>
+            </div>
+            <div class="card-body">
+              <p><span class="label">Yaş:</span> 23</p>
+              <hr />
+              <p>
+                <span class="label">Yakışıklılık:</span>
+                <span class="red label">Hard</span>
+              </p>
+              <hr />
+              <p>
+                <span class="label">Çalışkanlık:</span>
+                <span class="red label">Hard</span>
+              </p>
+              <hr />
+              <p>
+                <span class="label">Zeka:</span>
+                <span class="red label">Hard</span>
+              </p>
+              <hr />
+              <p><span class="label">Meslek:</span> Bilgisayar Mühendisi</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 d-flex justify-content-center">
+          <div class="card" style="width: 18rem">
+            <img src="/img2.png" class="card-img-top img-fluid" alt="..." />
+            <div class="card-header">
+              <h5 class="card-title text-center fst-italic">
+                Yiğit Can<br />Akçay
+              </h5>
+            </div>
+            <div class="card-body">
+              <p><span class="label">Yaş:</span> 23</p>
+              <hr />
+              <p>
+                <span class="label">Yakışıklılık:</span>
+                <span class="red label">Hard</span>
+              </p>
+              <hr />
+              <p>
+                <span class="label">Çalışkanlık:</span>
+                <span class="red label">Hard</span>
+              </p>
+              <hr />
+              <p>
+                <span class="label">Zeka:</span>
+                <span class="red label">Hard</span>
+              </p>
+              <hr />
+              <p><span class="label">Meslek:</span> Bilgisayar Mühendisi</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      crossorigin="anonymous"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    ></script>
+    <!-- Kar Taneleri -->
+    <script>
+      const numberOfSnowflakes = 50; // Kar tanelerinin sayısı
+      for (let i = 0; i < numberOfSnowflakes; i++) {
+        const snowflake = document.createElement("div");
+        snowflake.classList.add("snowflake");
+        snowflake.style.left = `${Math.random() * 100}vw`; // Sayfa genişliğine göre konum
+        snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`; // Karın düşüş hızı (2-5 saniye)
+        snowflake.style.animationDelay = `${Math.random() * 2}s`; // Farklı zamanlarda düşmeye başlaması
+        snowflake.style.fontSize = `${Math.random() * 1.2 + 0.8}rem`; // Farklı boyutlarda kar taneleri
+        snowflake.textContent = "❄️";
+        document.body.appendChild(snowflake);
+      }
+
+      const audio = document.getElementById("background-audio");
+      const audioToggle = document.getElementById("audio-toggle");
+
+      let isPlaying = false;
+
+      // Butona tıklayınca müziği başlat/durdur
+      audioToggle.addEventListener("click", () => {
+        if (isPlaying) {
+          audio.pause();
+          audioToggle.textContent = "🔈"; // Sesi kapalı göstermek için simge
+        } else {
+          audio.play();
+          audioToggle.textContent = "🔊"; // Sesi açık göstermek için simge
+        }
+        isPlaying = !isPlaying;
+      });
+
+      // Sayfa yüklendiğinde otomatik olarak müziği başlat
+      window.addEventListener("load", () => {
+        audio
+          .play()
+          .then(() => {
+            isPlaying = true;
+            audioToggle.textContent = "🔊";
+          })
+          .catch((err) => {
+            console.log(
+              "Otomatik ses çalma tarayıcı tarafından engellendi.",
+              err
+            );
+          });
+      });
+    </script>
+  </body>
 </html>
