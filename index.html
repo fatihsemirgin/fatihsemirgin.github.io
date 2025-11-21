@@ -1,273 +1,489 @@
 <!DOCTYPE html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fatih Semirgin</title>
-    <link
-      crossorigin="anonymous"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-      rel="stylesheet"
-    />
-    <link
-      rel="icon"
-      href="https://w7.pngwing.com/pngs/710/115/png-transparent-computer-icons-favicon-science-iconfinder-free-science-icon-text-logo-noun-project-thumbnail.png"
-    />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fatih Semirgin | Full-Stack Developer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      @keyframes rotate360 {
-        from {
-          transform: rotate(0deg);
+        /* --- CSS DEĞİŞKENLERİ --- */
+        :root {
+            --bg-color: #0a192f;
+            --text-main: #8892b0;
+            --text-highlight: #ccd6f6;
+            --accent: #64ffda;
+            --accent-glow: rgba(100, 255, 218, 0.1);
+            --card-bg: #112240;
+            --nav-bg: rgba(10, 25, 47, 0.85);
+            
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+            --transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
-        to {
-          transform: rotate(360deg);
+
+        body.light-mode {
+            --bg-color: #f0f2f5;
+            --text-main: #444444;
+            --text-highlight: #111111;
+            --accent: #0056b3;
+            --accent-glow: rgba(0, 86, 179, 0.1);
+            --card-bg: #ffffff;
+            --nav-bg: rgba(240, 242, 245, 0.85);
         }
-      }
-      .digital-clock {
-        font-weight: bold;
-        font-size: 4.3rem;
-        text-shadow: 0 0 20px #12acf9;
-        margin: 50px 0px 30px 0px;
-      }
-      html,
-      body {
-        text-align: center;
-        color: #d2dae2; /* Koyu gri metin */
-        /* width: 100vh; */
-      }
-      body {
-        background: rgb(2, 0, 36);
-        background: linear-gradient(
-          90deg,
-          rgba(2, 0, 36, 1) 0%,
-          rgba(45, 45, 140, 1) 35%,
-          rgba(0, 212, 255, 1) 100%
-        );
-        background-attachment: fixed; /*edit*/
-        display: flex;
-        justify-content: center;
-        height: 100%;
-        width: 100%;
-      }
-      header {
-        color: white;
-        padding: 20px;
-      }
-      .border-top {
-        border-top: var(--bs-border-width) var(--bs-border-style) #fcfdff00 !important;
-      }
-      .loading-message {
-        font-size: 1.5em;
-        color: #d2dae2; /* Kış mavisi */
-        margin-top: 30px;
-      }
-      .loader {
-        border: 16px solid #f3f3f3; /* Açık gri */
-        border-top: 16px solid #629ac0; /* Kış mavisi */
-        border-radius: 50%;
-        width: 120px;
-        height: 120px;
-        animation: spin 2s linear infinite;
-        margin: 40px auto;
-        scale: 1.3;
-      }
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: var(--transition);
         }
-        100% {
-          transform: rotate(360deg);
+        a { text-decoration: none; color: inherit; transition: var(--transition); cursor: none; }
+        ul { list-style: none; }
+
+        /* --- CURSOR --- */
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999; pointer-events: none;
         }
-      }
-      /* Kar Yağışı */
-      .snowflake {
-        position: absolute;
-        top: -10px;
-        font-size: 1rem;
-        color: #ffffff;
-        opacity: 0.8;
-        animation: fall linear infinite;
-      }
-      @keyframes fall {
-        0% {
-          transform: translateY(0) rotate(0deg);
+        .cursor-dot { width: 8px; height: 8px; background-color: var(--accent); }
+        .cursor-outline { width: 40px; height: 40px; border: 1px solid var(--accent); transition: width 0.2s, height 0.2s, top 0.1s, left 0.1s; }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 1.5rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--nav-bg); backdrop-filter: blur(10px);
+            z-index: 100; box-shadow: 0 10px 30px -10px rgba(2,12,27,0.7);
         }
-        100% {
-          transform: translateY(95vh) rotate(360deg);
+        .logo { font-family: var(--font-mono); color: var(--accent); font-size: 1.5rem; font-weight: 700; }
+        .nav-actions { display: flex; gap: 20px; align-items: center; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { font-family: var(--font-mono); font-size: 0.9rem; }
+        .nav-links a:hover { color: var(--accent); }
+        
+        .icon-btn { background: none; border: none; color: var(--text-main); font-size: 1.2rem; cursor: none; transition: var(--transition); }
+        .icon-btn:hover { color: var(--accent); }
+        
+        .lang-btn {
+            font-family: var(--font-mono); font-size: 0.9rem; color: var(--accent);
+            border: 1px solid var(--accent); padding: 5px 10px; border-radius: 4px;
+            background: transparent; cursor: none;
         }
-      }
-      li:hover {
-        animation: rotate360 0.5s ease-in-out;
-      }
-      .dots {
-        display: inline-block;
-        margin-left: 4px;
-      }
-      .dot {
-        display: inline-block;
-        width: 8px;
-        height: 8px;
-        background-color: #ffffff;
-        border-radius: 50%;
-        opacity: 0;
-        animation: dots-animation 1.5s infinite;
-      }
-      .dot:nth-child(1) {
-        animation-delay: 0s;
-      }
-      .dot:nth-child(2) {
-        animation-delay: 0.3s;
-      }
-      .dot:nth-child(3) {
-        animation-delay: 0.6s;
-      }
-      @keyframes dots-animation {
-        0%,
-        20% {
-          opacity: 0;
-          transform: scale(0.8);
+        .lang-btn:hover { background: var(--accent-glow); }
+
+        /* --- SECTIONS --- */
+        section { padding: 100px 10%; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        .section-header {
+            display: flex; align-items: center; margin-bottom: 40px;
+            font-size: clamp(26px, 5vw, 32px); color: var(--text-highlight); font-weight: 700;
         }
-        50% {
-          opacity: 1;
-          transform: scale(1);
+        .section-header::before {
+            content: attr(data-num); margin-right: 10px; color: var(--accent);
+            font-family: var(--font-mono); font-size: 20px; font-weight: 400;
         }
-        100% {
-          opacity: 0;
-          transform: scale(0.8);
+        .section-header::after { content: ""; display: block; width: 300px; height: 1px; background: #233554; margin-left: 20px; }
+
+        /* --- HERO --- */
+        .hero h5 { color: var(--accent); font-family: var(--font-mono); font-size: 1rem; margin-bottom: 20px; }
+        .hero h1 { color: var(--text-highlight); font-size: clamp(40px, 8vw, 80px); font-weight: 800; line-height: 1.1; }
+        .hero h2 { color: var(--text-main); font-size: clamp(30px, 6vw, 60px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+        .hero p { max-width: 540px; margin-bottom: 50px; font-size: 1.1rem; }
+        .btn {
+            color: var(--accent); background: transparent; border: 1px solid var(--accent);
+            border-radius: 4px; padding: 1.25rem 1.75rem; font-family: var(--font-mono); font-size: 14px;
+            display: inline-block; margin-top: 50px;
         }
-      }
+        .btn:hover { background: var(--accent-glow); }
+
+        /* --- ABOUT --- */
+        .about-content { display: grid; grid-template-columns: 3fr 2fr; gap: 50px; }
+        .about-img-wrapper {
+            position: relative; border-radius: 8px; box-shadow: 20px 20px 0px var(--accent-glow); transition: var(--transition);
+        }
+        .about-img-wrapper:hover { transform: translate(-5px, -5px); box-shadow: 25px 25px 0px var(--accent-glow); }
+        .about-img-wrapper img { width: 100%; border-radius: 8px; filter: grayscale(100%) contrast(1); transition: var(--transition); }
+        .about-img-wrapper:hover img { filter: none; }
+        .skills-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; font-family: var(--font-mono); font-size: 13px; }
+        .skills-list li::before { content: "▹"; color: var(--accent); margin-right: 10px; }
+
+        /* --- EXPERIENCE --- */
+        .timeline-container { border-left: 2px solid #233554; margin-left: 20px; padding: 10px 0 10px 30px; }
+        .job-card { margin-bottom: 40px; position: relative; }
+        .job-card::before {
+            content: ""; position: absolute; left: -38px; top: 5px;
+            width: 14px; height: 14px; border-radius: 50%; background: var(--bg-color); border: 2px solid var(--accent);
+        }
+        .job-title { color: var(--text-highlight); font-size: 20px; font-weight: 600; }
+        .job-company { color: var(--accent); font-family: var(--font-mono); }
+        .job-date { font-family: var(--font-mono); font-size: 13px; margin-bottom: 10px; display: inline-block; }
+
+        /* --- PROJECTS --- */
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+        .project-card {
+            background-color: var(--card-bg); padding: 2rem 1.75rem; border-radius: 4px;
+            transition: var(--transition); display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .project-card:hover { transform: translateY(-7px); }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .folder-icon { color: var(--accent); font-size: 40px; }
+        .project-links a { color: var(--text-highlight); font-size: 20px; margin-left: 10px; }
+        .project-links a:hover { color: var(--accent); }
+        .project-title { color: var(--text-highlight); font-size: 22px; margin-bottom: 10px; }
+        .project-desc { font-size: 15px; margin-bottom: 20px; }
+        .project-tech { display: flex; flex-wrap: wrap; gap: 10px; font-family: var(--font-mono); font-size: 12px; opacity: 0.7; }
+
+        /* --- CONTACT --- */
+        .contact-box { text-align: center; max-width: 600px; margin: 0 auto; }
+        .contact-form { margin-top: 40px; display: flex; flex-direction: column; gap: 15px; }
+        input, textarea {
+            width: 100%; background: var(--card-bg); border: 1px solid transparent;
+            padding: 15px; color: var(--text-highlight); font-family: var(--font-mono); border-radius: 4px;
+        }
+        input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+
+        /* --- UTILS --- */
+        .hidden { opacity: 0; transform: translateY(30px); transition: 1s; }
+        .show { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 768px) {
+            .about-content { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            section { padding: 80px 20px; }
+        }
     </style>
-  </head>
-  <body>
-    <div class="container">
-      <div class="row">
-        <main class="text-center">
-          <h1 class="digital-clock display-1" id="clock">00:00:00</h1>
-          <h2>Merhaba, web sayfası şu an hazırlanıyor!</h2>
-          <h4>Lütfen daha sonra tekrar deneyin.</h4>
-          <p class="loading-message">
-            Hazırlık süreci devam ediyor<span class="dots">
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-            </span>
-          </p>
-          <div class="loader"></div>
-          <div class="mt-5">
-            <ul class="nav justify-content-center list-unstyled d-flex">
-              <li>
-                <a
-                  class="text-light"
-                  href="https://www.linkedin.com/in/fatihsemirgin/"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="currentColor"
-                    class="bi bi-linkedin"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"
-                    />
-                  </svg>
-                </a>
-              </li>
-              <li class="ms-3">
-                <a class="text-light" href="https://github.com/fatihsemirgin"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="currentColor"
-                    class="bi bi-github"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
-                    />
-                  </svg>
-                </a>
-              </li>
-              <li class="ms-3">
-                <a
-                  class="text-light"
-                  href="https://www.instagram.com/fatihsemirgin/"
-                  ><svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="32"
-                    height="32"
-                    fill="currentColor"
-                    class="bi bi-instagram"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"
-                    />
-                  </svg>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <footer
-            class="d-flex flex-wrap justify-content-center align-items-center border-top navbar fixed-bottom"
-          >
-            <div class="d-flex align-items-center">
-              <span class="text-light">© 2025 ~ Fatih Semirgin</span>
+</head>
+<body>
+
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <nav>
+        <div class="logo">Fatih.</div>
+        <ul class="nav-links">
+            <li><a href="#about"><span style="color:var(--accent)">01.</span> <span data-lang="nav-about">Hakkımda</span></a></li>
+            <li><a href="#experience"><span style="color:var(--accent)">02.</span> <span data-lang="nav-exp">Deneyim</span></a></li>
+            <li><a href="#projects"><span style="color:var(--accent)">03.</span> <span data-lang="nav-work">Projeler</span></a></li>
+            <li><a href="#contact"><span style="color:var(--accent)">04.</span> <span data-lang="nav-contact">İletişim</span></a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="lang-btn" id="lang-toggle">TR</button>
+            <button class="icon-btn" id="theme-toggle"><i class="fas fa-moon"></i></button>
+        </div>
+    </nav>
+
+    <section id="hero" class="hero">
+        <h5 class="hidden" data-lang="hero-hi">Merhaba, benim adım</h5>
+        <h1 class="hidden">Fatih Semirgin.</h1>
+        <h2 class="hidden" data-lang="hero-subtitle">Veriyi ve web'i tasarlıyorum.</h2>
+        <p class="hidden" data-lang="hero-desc">
+            Dokuz Eylül Üniversitesi Bilgisayar Mühendisliği mezunu ve şu anda IBTECH'te 
+            <strong>Mid-Level Data Designer</strong> olarak çalışıyorum. Ölçeklenebilir kurum içi 
+            web uygulamaları ve veri mimarisi üzerine uzmanlaşıyorum.
+        </p>
+        <a href="#projects" class="btn hidden" data-lang="hero-btn">Projelerimi İncele</a>
+    </section>
+
+    <section id="about">
+        <h2 class="section-header hidden" data-num="01." data-lang="nav-about">Hakkımda</h2>
+        <div class="about-content hidden">
+            <div class="about-text">
+                <p data-lang="about-p1">Selam! Ben Fatih. Yazılım dünyasına olan ilgim üniversite yıllarımda başladı ve o günden beri hem <strong>Backend</strong> hem de <strong>Frontend</strong> teknolojileriyle karmaşık problemleri çözmekten keyif alıyorum.</p>
+                <br>
+                <p data-lang="about-p2">Şu anda <strong style="color: var(--accent)">IBTECH</strong> bünyesinde profesyonel kariyerime devam ediyorum. Özellikle .NET ekosistemi ve modern JavaScript kütüphaneleri ile performanslı sistemler kurmak üzerine çalışıyorum.</p>
+                
+                <p style="margin-top:20px" data-lang="about-tech">Son zamanlarda kullandığım teknolojiler:</p>
+                <ul class="skills-list">
+                    <li>JavaScript (ES6+)</li>
+                    <li>React.js</li>
+                    <li>Node.js</li>
+                    <li>ASP.NET Core</li>
+                    <li>C#</li>
+                    <li>SQL / T-SQL</li>
+                </ul>
             </div>
-          </footer>
-        </main>
-      </div>
-    </div>
-    <script
-      crossorigin="anonymous"
-      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    ></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <div class="about-img-wrapper">
+                
+                <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Fatih Semirgin Workspace">
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2 class="section-header hidden" data-num="02." data-lang="nav-exp">Deneyimlerim</h2>
+        <div class="timeline-container hidden">
+            <div class="job-card">
+                <h3 class="job-title">Mid-Level Data Designer</h3>
+                <span class="job-company">@ IBTECH</span><br>
+                <span class="job-date" data-lang="exp-date1">2023 - Günümüz</span>
+                <ul style="margin-top:10px; font-size:0.9rem; opacity:0.8; list-style:none;">
+                    <li data-lang="exp-desc1-1">▹ Kurum içi web projelerinin full-stack geliştirilmesi.</li>
+                    <li data-lang="exp-desc1-2">▹ Veri tabanı tasarımı ve performans optimizasyonu.</li>
+                    <li data-lang="exp-desc1-3">▹ .NET Core ve React teknolojileri ile ölçeklenebilir çözümler.</li>
+                </ul>
+            </div>
+            <div class="job-card">
+                <h3 class="job-title" data-lang="exp-role2">Earthquake Early Warning System (Ödül)</h3>
+                <span class="job-company">@ GBYF 2024</span><br>
+                <span class="job-date">2024</span>
+                <ul style="margin-top:10px; font-size:0.9rem; opacity:0.8; list-style:none;">
+                    <li data-lang="exp-desc2-1">▹ IoT ve Web tabanlı erken uyarı sistemi projesi.</li>
+                    <li data-lang="exp-desc2-2">▹ GBYF 2024 yarışmasında ödül kazanan proje ekibi.</li>
+                </ul>
+            </div>
+            <div class="job-card">
+                <h3 class="job-title" data-lang="exp-role3">Bilgisayar Mühendisliği</h3>
+                <span class="job-company">@ Dokuz Eylül Üniversitesi</span><br>
+                <span class="job-date">2019 - 2023</span>
+                <ul style="margin-top:10px; font-size:0.9rem; opacity:0.8; list-style:none;">
+                    <li data-lang="exp-desc3-1">▹ Yazılım Mimarisi, Veri Yapıları ve Algoritmalar odaklı eğitim.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-header hidden" data-num="03." data-lang="nav-work">Projeler</h2>
+        <div class="projects-grid" id="projects-container">
+            </div>
+    </section>
+
+    <section id="contact">
+        <h2 class="section-header hidden" data-num="04." data-lang="nav-contact">İletişim</h2>
+        <div class="contact-box hidden">
+            <h1 style="font-size: 40px; color: var(--text-highlight); margin-bottom: 20px;" data-lang="contact-title">Merhaba De!</h1>
+            <p data-lang="contact-desc">Şu anda yeni fırsatlara ve projelere açığım. İster bir sorun olsun, ister sadece selam vermek iste, gelen kutum her zaman açık!</p>
+            
+            <form class="contact-form" id="contactForm">
+                <input type="text" id="input-name" placeholder="Adın Soyadın" required>
+                <input type="email" id="input-email" placeholder="E-posta Adresin" required>
+                <textarea rows="5" id="input-msg" placeholder="Mesajın..." required></textarea>
+                <button type="submit" class="btn" data-lang="contact-btn">Gönder</button>
+            </form>
+
+            <div style="margin-top: 50px;">
+                <a href="mailto:fatih.semirgin@gmail.com" class="btn" data-lang="contact-cv">CV İndir (PDF)</a>
+            </div>
+        </div>
+    </section>
+
     <script>
-      function updateClock() {
-        const clockElement = document.getElementById("clock");
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, "0");
-        const minutes = String(now.getMinutes()).padStart(2, "0");
-        const seconds = String(now.getSeconds()).padStart(2, "0");
-        clockElement.textContent = `${hours}:${minutes}:${seconds}`;
-      }
-      let leftSize = 97;
-      setInterval(updateClock, 1000);
-      updateClock();
-      function isMobileMode() {
-        return window.innerWidth <= 768;
-      }
-      window.addEventListener("resize", () => {
-        if (isMobileMode()) {
-          leftSize = 90;
-        } else {
-          leftSize = 97;
+        // --- 1. ÇOKLU DİL VERİSİ (DICTIONARY) ---
+        const translations = {
+            tr: {
+                "nav-about": "Hakkımda",
+                "nav-exp": "Deneyim",
+                "nav-work": "Projeler",
+                "nav-contact": "İletişim",
+                "hero-hi": "Merhaba, benim adım",
+                "hero-subtitle": "Veriyi ve web'i tasarlıyorum.",
+                "hero-desc": "Dokuz Eylül Üniversitesi Bilgisayar Mühendisliği mezunu ve şu anda IBTECH'te <strong>Mid-Level Data Designer</strong> olarak çalışıyorum. Ölçeklenebilir kurum içi web uygulamaları ve veri mimarisi üzerine uzmanlaşıyorum.",
+                "hero-btn": "Projelerimi İncele",
+                "about-p1": "Selam! Ben Fatih. Yazılım dünyasına olan ilgim üniversite yıllarımda başladı ve o günden beri hem <strong>Backend</strong> hem de <strong>Frontend</strong> teknolojileriyle karmaşık problemleri çözmekten keyif alıyorum.",
+                "about-p2": "Şu anda <strong style='color: var(--accent)'>IBTECH</strong> bünyesinde profesyonel kariyerime devam ediyorum. Özellikle .NET ekosistemi ve modern JavaScript kütüphaneleri ile performanslı sistemler kurmak üzerine çalışıyorum.",
+                "about-tech": "Son zamanlarda kullandığım teknolojiler:",
+                "exp-date1": "2023 - Günümüz",
+                "exp-desc1-1": "▹ Kurum içi web projelerinin full-stack geliştirilmesi.",
+                "exp-desc1-2": "▹ Veri tabanı tasarımı ve performans optimizasyonu.",
+                "exp-desc1-3": "▹ .NET Core ve React teknolojileri ile ölçeklenebilir çözümler.",
+                "exp-role2": "Deprem Erken Uyarı Sistemi (Ödül)",
+                "exp-desc2-1": "▹ IoT ve Web tabanlı erken uyarı sistemi projesi.",
+                "exp-desc2-2": "▹ GBYF 2024 yarışmasında ödül kazanan proje ekibi.",
+                "exp-role3": "Bilgisayar Mühendisliği",
+                "exp-desc3-1": "▹ Yazılım Mimarisi, Veri Yapıları ve Algoritmalar odaklı eğitim.",
+                "contact-title": "Merhaba De!",
+                "contact-desc": "Şu anda yeni fırsatlara ve projelere açığım. İster bir sorun olsun, ister sadece selam vermek iste, gelen kutum her zaman açık!",
+                "contact-btn": "Gönder",
+                "contact-cv": "CV İndir (PDF)",
+                "ph-name": "Adın Soyadın",
+                "ph-email": "E-posta Adresin",
+                "ph-msg": "Mesajın..."
+            },
+            en: {
+                "nav-about": "About",
+                "nav-exp": "Experience",
+                "nav-work": "Work",
+                "nav-contact": "Contact",
+                "hero-hi": "Hi, my name is",
+                "hero-subtitle": "Architecting data & web solutions.",
+                "hero-desc": "I'm a Computer Engineering graduate from Dokuz Eylul University and a <strong>Mid-Level Data Designer</strong> at IBTECH. I specialize in building scalable in-house web applications and robust data architectures.",
+                "hero-btn": "Check out my work!",
+                "about-p1": "Hello! My name is Fatih. My interest in software development started back in university, and since then I've enjoyed solving complex problems using both <strong>Backend</strong> and <strong>Frontend</strong> technologies.",
+                "about-p2": "Fast-forward to today, I'm building professional solutions at <strong style='color: var(--accent)'>IBTECH</strong>. My main focus is engineering performant systems using the .NET ecosystem and modern JavaScript libraries.",
+                "about-tech": "Here are a few technologies I've been working with recently:",
+                "exp-date1": "2023 - Present",
+                "exp-desc1-1": "▹ Full-stack development of in-house web projects.",
+                "exp-desc1-2": "▹ Database design and performance optimization.",
+                "exp-desc1-3": "▹ Scalable solutions using .NET Core and React technologies.",
+                "exp-role2": "Earthquake Early Warning System (Award)",
+                "exp-desc2-1": "▹ IoT and Web-based real-time alert system project.",
+                "exp-desc2-2": "▹ Award-winning project team at GBYF 2024.",
+                "exp-role3": "Computer Engineering",
+                "exp-desc3-1": "▹ Education focused on Software Architecture, Data Structures & Algorithms.",
+                "contact-title": "Get In Touch",
+                "contact-desc": "I'm currently open to new opportunities and projects. Whether you have a question or just want to say hi, my inbox is always open!",
+                "contact-btn": "Send Message",
+                "contact-cv": "Download CV (PDF)",
+                "ph-name": "Name",
+                "ph-email": "Email",
+                "ph-msg": "Message"
+            }
+        };
+
+        // --- 2. PROJE VERİLERİ (Çift Dilli) ---
+        const projectsData = [
+            {
+                title: "YEF Bank",
+                desc_tr: "Güvenli kullanıcı kimlik doğrulama ve para transferi özelliklerine sahip kapsamlı bir bankacılık simülasyonu.",
+                desc_en: "A comprehensive banking simulation featuring secure user authentication and money transfer capabilities.",
+                stack: ["C#", ".NET Core", "SQL"],
+                link: "#"
+            },
+            {
+                title: "Hospital Patient Tracking",
+                desc_tr: "Hasta kayıtları, randevu yönetimi ve doktor çizelgelemesi için geliştirilmiş dijital hastane yönetim sistemi.",
+                desc_en: "Digital hospital management system developed for patient records, appointment management, and doctor scheduling.",
+                stack: ["React", "Node.js", "MongoDB"],
+                link: "#"
+            },
+            {
+                title: "Cinema Control System",
+                desc_tr: "Kullanıcıların koltuk seçimi yapabildiği, bilet satın alabildiği ve admin paneli bulunan sinema otomasyonu.",
+                desc_en: "Cinema automation where users can select seats, buy tickets, featuring a comprehensive admin panel.",
+                stack: ["HTML/CSS", "JS", "PHP"],
+                link: "#"
+            },
+            {
+                title: "Car Rental System",
+                desc_tr: "Tarih uygunluk mantığına dayalı, araç filosu görüntüleme ve kiralama işlemlerini yöneten full-stack web uygulaması.",
+                desc_en: "Full-stack web app managing vehicle fleet viewing and rental operations based on date availability logic.",
+                stack: ["ASP.NET Core", "Angular"],
+                link: "#"
+            }
+        ];
+
+        // --- 3. DİL DEĞİŞTİRME FONKSİYONU ---
+        let currentLang = localStorage.getItem('lang') || 'tr';
+        
+        function updateLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            const btn = document.getElementById('lang-toggle');
+            btn.textContent = lang === 'tr' ? 'EN' : 'TR'; // Buton diğer dili gösterir
+
+            // Statik metinleri güncelle
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if(translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Form placeholderlarını güncelle
+            document.getElementById('input-name').placeholder = translations[lang]['ph-name'];
+            document.getElementById('input-email').placeholder = translations[lang]['ph-email'];
+            document.getElementById('input-msg').placeholder = translations[lang]['ph-msg'];
+
+            // Projeleri yeniden render et
+            renderProjects(lang);
         }
-        console.log(leftSize);
-      });
-      if (isMobileMode()) {
-        leftSize = 90;
-      }
-      // Kar Taneleri
-      const numberOfSnowflakes = 50; // Kar tanelerinin sayısı
-      for (let i = 0; i < numberOfSnowflakes; i++) {
-        const snowflake = document.createElement("div");
-        snowflake.classList.add("snowflake");
-        snowflake.style.left = `${Math.random() * leftSize}vw`; // Sayfa genişliğine göre konum
-        snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`; // Karın düşüş hızı (2-5 saniye)
-        snowflake.style.animationDelay = `${Math.random() * 2}s`; // Farklı zamanlarda düşmeye başlaması
-        snowflake.style.fontSize = `${Math.random() * 1.2 + 0.8}rem`; // Farklı boyutlarda kar taneleri
-        snowflake.textContent = "❄️";
-        document.body.appendChild(snowflake);
-      }
+
+        // --- 4. PROJELERİ RENDER ETME ---
+        const projectsContainer = document.getElementById('projects-container');
+
+        function renderProjects(lang) {
+            let htmlContent = "";
+            projectsData.forEach(project => {
+                // Dile göre doğru açıklamayı seç
+                const description = lang === 'tr' ? project.desc_tr : project.desc_en;
+                
+                htmlContent += `
+                <div class="project-card hidden show"> <div class="card-top">
+                        <i class="far fa-folder folder-icon"></i>
+                        <div class="project-links">
+                            <a href="${project.link}" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                        </div>
+                    </div>
+                    <h3 class="project-title">${project.title}</h3>
+                    <p class="project-desc">${description}</p>
+                    <div class="project-tech">
+                        ${project.stack.map(tech => `<span>${tech}</span>`).join('')}
+                    </div>
+                </div>
+                `;
+            });
+            projectsContainer.innerHTML = htmlContent;
+        }
+
+        // --- 5. EVENT LISTENERS & INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Başlangıç dili
+            updateLanguage(currentLang);
+
+            // Dil butonu
+            document.getElementById('lang-toggle').addEventListener('click', () => {
+                const newLang = currentLang === 'tr' ? 'en' : 'tr';
+                updateLanguage(newLang);
+            });
+            
+            // Scroll Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) { entry.target.classList.add('show'); }
+                });
+            });
+            setTimeout(() => {
+                document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
+            }, 100);
+        });
+
+        // --- 6. TEMA ve CURSOR (Önceki kodun aynısı) ---
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            const icon = themeToggle.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+
+        const cursorDot = document.querySelector('[data-cursor-dot]');
+        const cursorOutline = document.querySelector('[data-cursor-outline]');
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+        });
+
+        // Form Submit
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.textContent;
+            btn.textContent = currentLang === 'tr' ? "Gönderiliyor..." : "Sending...";
+            setTimeout(() => {
+                btn.textContent = currentLang === 'tr' ? "Mesaj İletildi! 🚀" : "Message Sent! 🚀";
+                btn.style.color = "var(--accent)";
+                e.target.reset();
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.color = "";
+                }, 3000);
+            }, 1500);
+        });
     </script>
-  </body>
+</body>
 </html>
