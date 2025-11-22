@@ -179,6 +179,8 @@
         .project-desc { font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; line-height: 1.5; }
         .project-stats { font-family: var(--font-mono); font-size: 0.75rem; display: flex; gap: 15px; opacity: 0.6; }
         .repo-lang-circle { display:inline-block; width:8px; height:8px; background-color: var(--accent); border-radius:50%; margin-right:5px; }
+        
+        .view-more-container { text-align: center; margin-top: 40px; }
 
         /* --- CONTACT --- */
         .contact-box { text-align: center; max-width: 500px; margin: 0 auto; }
@@ -297,6 +299,9 @@
         </p>
         <div class="projects-grid" id="github-container">
             </div>
+        <div class="view-more-container hidden">
+            <a href="https://github.com/fatihsemirgin?tab=repositories" target="_blank" class="btn" data-i18n="btn_view_all">View All Repositories</a>
+        </div>
     </section>
 
     <section id="contact">
@@ -320,7 +325,7 @@
                 <a href="mailto:fatih.semirgin@gmail.com" style="margin:0 12px"><i class="fas fa-envelope"></i></a>
             </div>
             <br>
-            <a href="#" class="btn" data-i18n="btn_cv" style="margin-top:10px">Download CV</a>
+            <a href="./Fatih_Semirgin_CV-1-1.pdf" target="_blank" class="btn" data-i18n="btn_cv" style="margin-top:10px">Download CV</a>
         </div>
     </section>
 
@@ -340,6 +345,7 @@
                 contact_p: "I'm currently open to new opportunities. Whether you have a question or just want to say hi, my inbox is always open!",
                 btn_send: "Send Message",
                 btn_cv: "Download CV",
+                btn_view_all: "View All Repositories", // Yeni buton çevirisi
                 github_msg: "Latest public repositories from GitHub:",
                 ph_name: "Name", ph_email: "Email", ph_msg: "Message"
             },
@@ -356,13 +362,13 @@
                 contact_p: "Şu anda yeni fırsatlara açığım. İster bir sorunuz olsun ister sadece merhaba demek isteyin, mesajlarınızı bekliyorum!",
                 btn_send: "Mesaj Gönder",
                 btn_cv: "CV İndir",
+                btn_view_all: "Tüm Depoları Gör", // Yeni buton çevirisi
                 github_msg: "GitHub'dan çekilen güncel projeler:",
                 ph_name: "Adınız", ph_email: "E-posta", ph_msg: "Mesajınız"
             }
         };
 
-        // --- 2. DENEYİM VERİSİ (Dinamik Yapı) ---
-        // Burayı LinkedIn profilinize göre dilediğiniz gibi güncelleyebilirsiniz.
+        // --- 2. DENEYİM VERİSİ ---
         const experienceData = [
             {
                 title_en: "Mid-Level Software Engineer",
@@ -403,25 +409,22 @@
             document.getElementById('btn-en').classList.toggle('active', lang === 'en');
             document.getElementById('btn-tr').classList.toggle('active', lang === 'tr');
 
-            // Statik metinleri güncelle
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (translations[lang][key]) el.innerHTML = translations[lang][key];
             });
 
-            // Input placeholderları güncelle
             document.getElementById('inp_name').placeholder = translations[lang].ph_name;
             document.getElementById('inp_email').placeholder = translations[lang].ph_email;
             document.getElementById('inp_msg').placeholder = translations[lang].ph_msg;
 
-            // Deneyim bölümünü yeniden çiz (Dili değiştirerek)
             renderExperience(lang);
         }
 
         document.getElementById('btn-en').addEventListener('click', () => setLanguage('en'));
         document.getElementById('btn-tr').addEventListener('click', () => setLanguage('tr'));
 
-        // --- 4. DENEYİM RENDER FONKSİYONU ---
+        // --- 4. DENEYİM RENDER ---
         function renderExperience(lang) {
             const container = document.getElementById('experience-container');
             let html = '';
@@ -545,7 +548,6 @@
             }, 1000);
         });
 
-        // --- BAŞLANGIÇ ---
         window.addEventListener('DOMContentLoaded', () => {
             setLanguage(currentLang);
             fetchGitHubRepos();
