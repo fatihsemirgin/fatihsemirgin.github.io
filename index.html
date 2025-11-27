@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -21,26 +21,48 @@
             --accent: #64ffda;
             --accent-glow: rgba(100, 255, 218, 0.1);
             --card-bg: #112240;
-            --nav-glass: rgba(10, 25, 47, 0.9);
+            --nav-glass: rgba(10, 25, 47, 0.85);
             --font-main: 'Inter', sans-serif;
             --font-mono: 'Fira Code', monospace;
             --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+            --scrollbar-bg: #0a192f;
+            --scrollbar-thumb: #495670;
         }
 
         body.light-mode {
             --bg-color: #f0f2f5;
             --text-main: #444444;
             --text-highlight: #111111;
-            --accent: #0056b3;
-            --accent-glow: rgba(0, 86, 179, 0.1);
+            --accent: #007bff; /* Mavi ton daha okunaklı */
+            --accent-glow: rgba(0, 123, 255, 0.1);
             --card-bg: #ffffff;
-            --nav-glass: rgba(240, 242, 245, 0.9);
+            --nav-glass: rgba(240, 242, 245, 0.85);
+            --scrollbar-bg: #f0f2f5;
+            --scrollbar-thumb: #b0b0b0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        /* Sadece Desktop cihazlarda custom cursor aktif olsun */
+        @media (hover: hover) and (pointer: fine) {
+            * { cursor: none; }
+            .cursor-dot, .cursor-outline { display: block; }
+        }
+        
+        /* Mobilde custom cursor gizle */
+        @media (hover: none) {
+            .cursor-dot, .cursor-outline { display: none; }
+            * { cursor: auto; }
+        }
+
         html { scroll-behavior: smooth; }
         
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-bg); }
+        ::-webkit-scrollbar-thumb { background-color: var(--scrollbar-thumb); border-radius: 10px; border: 2px solid var(--scrollbar-bg); }
+        ::-webkit-scrollbar-thumb:hover { background-color: var(--accent); }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
@@ -50,7 +72,7 @@
             transition: var(--transition);
         }
 
-        a { text-decoration: none; color: inherit; transition: var(--transition); cursor: none; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); display: inline-block; }
         ul { list-style: none; }
 
         /* --- CUSTOM CURSOR --- */
@@ -64,155 +86,218 @@
         .cursor-outline { 
             width: 40px; height: 40px; 
             border: 1px solid var(--accent); 
-            transition: width 0.2s, height 0.2s, top 0.1s, left 0.1s; 
+            transition: width 0.2s, height 0.2s, background-color 0.2s; 
         }
-
-        /* --- DİL BUTONU (SABİT) --- */
-        .lang-float {
-            position: fixed; top: 100px; right: 40px; z-index: 900;
-            background: var(--nav-glass); backdrop-filter: blur(5px);
-            border: 1px solid var(--accent); padding: 8px;
-            border-radius: 50px; display: flex; flex-direction: column; gap: 5px;
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-        }
-        .lang-opt {
-            font-family: var(--font-mono); font-size: 11px; color: var(--text-main);
-            padding: 6px; cursor: none; border-radius: 50%;
-            text-align: center; transition: var(--transition); width: 30px; height: 30px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .lang-opt.active { background: var(--accent); color: var(--bg-color); font-weight: 700; }
-        .lang-opt:hover { color: var(--accent); }
 
         /* --- NAVİGASYON --- */
         nav {
-            position: fixed; top: 0; width: 100%; padding: 1rem 5%;
+            position: fixed; top: 0; width: 100%; padding: 0 50px;
             display: flex; justify-content: space-between; align-items: center;
             background: var(--nav-glass); backdrop-filter: blur(10px);
             z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.05);
-            height: 70px;
+            height: 80px; transition: var(--transition);
         }
-        .logo { font-family: var(--font-mono); color: var(--accent); font-size: 1.4rem; font-weight: 700; }
-        .nav-links { display: flex; gap: 2rem; }
-        .nav-links a { font-family: var(--font-mono); font-size: 0.85rem; }
-        .nav-links a:hover { color: var(--accent); }
-        .theme-btn { background: none; border: none; color: var(--text-main); font-size: 1.1rem; cursor: none; transition: var(--transition); }
+        .logo { font-family: var(--font-mono); color: var(--accent); font-size: 1.6rem; font-weight: 700; z-index: 1001; }
+        
+        .nav-right { display: flex; align-items: center; gap: 30px; }
+
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-highlight); }
+        .nav-links a:hover { color: var(--accent); transform: translateY(-2px); }
+        .nav-links span { color: var(--accent); margin-right: 5px; }
+
+        .nav-controls { display: flex; align-items: center; gap: 20px; }
+
+        .theme-btn { 
+            background: none; border: none; color: var(--text-highlight); 
+            font-size: 1.2rem; cursor: pointer; transition: var(--transition); 
+        }
         .theme-btn:hover { color: var(--accent); transform: rotate(15deg); }
+
+        /* Dil Seçici - Navbar içine alındı */
+        .lang-switch {
+            display: flex; gap: 5px; font-family: var(--font-mono); font-size: 12px;
+            border: 1px solid var(--accent); padding: 4px; border-radius: 4px;
+        }
+        .lang-opt {
+            padding: 2px 6px; cursor: pointer; border-radius: 2px; transition: var(--transition);
+            color: var(--text-highlight);
+        }
+        .lang-opt.active { background: var(--accent); color: var(--bg-color); font-weight: 700; }
+
+        /* Hamburger Menu Icon */
+        .hamburger { display: none; z-index: 1001; cursor: pointer; flex-direction: column; gap: 6px; }
+        .hamburger div { width: 30px; height: 2px; background-color: var(--accent); transition: var(--transition); }
+        
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            position: fixed; top: 0; right: 0; height: 100vh; width: 75vw; max-width: 300px;
+            background-color: var(--card-bg); z-index: 1000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transform: translateX(100%); transition: transform 0.3s ease-in-out;
+            box-shadow: -10px 0px 30px -15px rgba(2,12,27,0.7);
+        }
+        .mobile-menu-overlay.active { transform: translateX(0); }
+        .mobile-menu-overlay .nav-links { flex-direction: column; text-align: center; gap: 40px; font-size: 1.2rem; }
+        
+        /* Body Blur on Menu Open */
+        body.menu-open { overflow: hidden; }
+        .blur-overlay {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(10, 25, 47, 0.7); backdrop-filter: blur(2px);
+            z-index: 999; display: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .blur-overlay.active { display: block; opacity: 1; }
+
 
         /* --- SECTIONS GENEL --- */
         section { 
-            padding: 30px 12%; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center;
+            padding: 100px 10%; 
+            max-width: 1600px; margin: 0 auto;
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center;
         }
         
         .section-header {
-            display: flex; align-items: center; margin-bottom: 30px;
-            font-size: clamp(22px, 4vw, 28px); color: var(--text-highlight); font-weight: 700;
+            display: flex; align-items: center; margin-bottom: 40px;
+            font-size: clamp(26px, 5vw, 32px); color: var(--text-highlight); font-weight: 700;
+            white-space: nowrap;
         }
         .section-header::before {
             content: attr(data-num); margin-right: 10px; color: var(--accent);
-            font-family: var(--font-mono); font-size: 18px; font-weight: 400;
+            font-family: var(--font-mono); font-size: clamp(20px, 4vw, 24px); font-weight: 400;
+            position: relative; bottom: -2px;
         }
-        .section-header::after { content: ""; display: block; width: 200px; height: 1px; background: #233554; margin-left: 20px; opacity: 0.5; }
+        .section-header::after { 
+            content: ""; display: block; width: 300px; height: 1px; 
+            background: var(--text-main); margin-left: 20px; opacity: 0.2; 
+        }
 
         /* --- HERO --- */
-        #hero {
-            min-height: 45vh; 
-           
-        }
-        .hero h5 { color: var(--accent); font-family: var(--font-mono); font-size: 1rem; margin-bottom: 15px; }
-        .hero h1 { color: var(--text-highlight); font-size: clamp(40px, 8vw, 70px); font-weight: 800; line-height: 1.1; }
-        .hero h2 { color: var(--text-main); font-size: clamp(30px, 6vw, 50px); font-weight: 700; line-height: 1.1; margin-bottom: 20px; opacity: 0.9; }
-        .hero p { max-width: 540px; margin-bottom: 40px; font-size: 1.1rem; }
+        #hero { padding-top: 0; min-height: 100vh; }
+        .hero h5 { color: var(--accent); font-family: var(--font-mono); font-size: 1rem; margin-bottom: 20px; letter-spacing: 1px; }
+        .hero h1 { color: var(--text-highlight); font-size: clamp(40px, 8vw, 80px); font-weight: 800; line-height: 1.1; margin-bottom: 10px; }
+        .hero h2 { color: var(--text-main); font-size: clamp(30px, 6vw, 60px); font-weight: 700; line-height: 1.1; margin-bottom: 30px; opacity: 0.9; }
+        .hero p { max-width: 540px; margin-bottom: 50px; font-size: 1.1rem; }
         
         .btn {
             color: var(--accent); background: transparent; border: 1px solid var(--accent);
-            border-radius: 4px; padding: 1rem 1.5rem; font-family: var(--font-mono); font-size: 13px;
-            display: inline-block; transition: var(--transition);
-            margin-top: 10px;
+            border-radius: 4px; padding: 1.25rem 1.75rem; font-family: var(--font-mono); font-size: 14px;
+            cursor: pointer; transition: var(--transition); display: inline-block; text-align: center;
         }
         .btn:hover { background: var(--accent-glow); transform: translateY(-3px); }
 
         /* --- ABOUT --- */
-        .about-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 40px; align-items: start; }
+        .about-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 50px; align-items: start; }
         .about-img-wrapper {
-            position: relative; border-radius: 8px; max-width: 300px; margin: 0 auto;
-            box-shadow: 15px 15px 0px var(--accent-glow); transition: var(--transition);
+            position: relative; border-radius: 4px; max-width: 300px; margin: 0 auto;
+            display: block; width: 100%;
         }
-        .about-img-wrapper:hover { transform: translate(-3px, -3px); box-shadow: 20px 20px 0px var(--accent-glow); }
-        .about-img-wrapper img { width: 100%; border-radius: 8px; filter: grayscale(100%); transition: var(--transition); display: block;}
-        .about-img-wrapper:hover img { filter: none; }
+        .about-img-wrapper::after {
+            content: ''; display: block; position: absolute; width: 100%; height: 100%;
+            border-radius: 4px; border: 2px solid var(--accent);
+            top: 20px; left: 20px; z-index: -1; transition: var(--transition);
+        }
+        .about-img-wrapper:hover::after { top: 15px; left: 15px; }
+        .about-img-wrapper img { 
+            width: 100%; border-radius: 4px; filter: grayscale(100%) contrast(1.1); 
+            transition: var(--transition); display: block; background: var(--accent);
+            mix-blend-mode: multiply;
+        }
+        .about-img-wrapper:hover img { filter: none; mix-blend-mode: normal; }
 
         .skills-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 25px; }
         .skill-tag {
             font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent);
-            border: 1px solid var(--accent); padding: 6px 12px; border-radius: 4px;
-            transition: var(--transition);
+            background: rgba(100, 255, 218, 0.05);
+            padding: 8px 16px; border-radius: 50px; transition: var(--transition);
         }
-        .skill-tag:hover { background: var(--accent-glow); }
+        .skill-tag:hover { background: var(--accent-glow); transform: translateY(-2px); }
 
         /* --- EXPERIENCE --- */
-        .timeline { border-left: 2px solid #233554; margin-left: 10px; padding-left: 25px; }
-        .job-card { margin-bottom: 35px; position: relative; }
-        .job-card:last-child { margin-bottom: 0; }
+        .timeline { border-left: 2px solid rgba(136, 146, 176, 0.2); margin-left: 10px; padding-left: 30px; }
+        .job-card { margin-bottom: 40px; position: relative; }
         .job-card::before {
-            content: ""; position: absolute; left: -33px; top: 6px;
-            width: 12px; height: 12px; border-radius: 50%; background: var(--bg-color); border: 2px solid var(--accent);
+            content: ""; position: absolute; left: -38px; top: 5px;
+            width: 14px; height: 14px; border-radius: 50%; background: var(--bg-color); border: 2px solid var(--accent);
+            transition: var(--transition);
         }
-        .job-title { color: var(--text-highlight); font-size: 1.2rem; font-weight: 600; margin-bottom: 5px;}
-        .job-company { color: var(--accent); font-family: var(--font-mono); font-size: 0.9rem; }
-        .job-date { font-family: var(--font-mono); font-size: 0.8rem; opacity: 0.6; display: block; margin-bottom: 10px; }
+        .job-card:hover::before { background: var(--accent); }
+        .job-title { color: var(--text-highlight); font-size: 1.3rem; font-weight: 600; margin-bottom: 5px;}
+        .job-company { color: var(--accent); font-family: var(--font-mono); font-size: 0.95rem; }
+        .job-date { font-family: var(--font-mono); font-size: 0.85rem; opacity: 0.7; display: block; margin-bottom: 15px; margin-top: 5px; }
 
         /* --- PROJECTS --- */
-        .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .projects-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 25px; 
+            position: relative;
+        }
         .project-card {
-            background-color: var(--card-bg); padding: 1.75rem; border-radius: 6px;
+            background-color: var(--card-bg); padding: 2rem 1.75rem; border-radius: 6px;
             transition: var(--transition); display: flex; flex-direction: column; height: 100%;
-            border: 1px solid transparent;
+            border: 1px solid transparent; cursor: pointer;
+            box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7);
         }
-        .project-card:hover { transform: translateY(-5px); border-color: var(--accent); box-shadow: 0 10px 30px -15px rgba(2,12,27,0.7); }
-        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .folder-icon { color: var(--accent); font-size: 35px; }
-        .project-title { color: var(--text-highlight); font-size: 1.2rem; margin-bottom: 10px; font-weight: 600; }
-        .project-desc { font-size: 0.9rem; margin-bottom: 20px; flex-grow: 1; line-height: 1.5; }
-        .project-stats { font-family: var(--font-mono); font-size: 0.75rem; display: flex; gap: 15px; opacity: 0.6; }
-        .repo-lang-circle { display:inline-block; width:8px; height:8px; background-color: var(--accent); border-radius:50%; margin-right:5px; }
+        .project-card:hover { transform: translateY(-7px); border-color: var(--accent); }
+        .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .folder-icon { color: var(--accent); font-size: 40px; }
+        .project-card a { color: var(--text-highlight); font-size: 1.2rem; }
+        .project-card a:hover { color: var(--accent); }
         
-        .view-more-container { text-align: center; margin-top: 40px; }
-
+        .project-title { color: var(--text-highlight); font-size: 1.4rem; margin-bottom: 10px; font-weight: 700; }
+        .project-desc { font-size: 1rem; margin-bottom: 20px; flex-grow: 1; line-height: 1.6; color: var(--text-main); }
+        .project-stats { font-family: var(--font-mono); font-size: 0.8rem; display: flex; gap: 20px; margin-top: auto; }
+        
         /* --- CONTACT --- */
-        .contact-box { text-align: center; max-width: 500px; margin: 0 auto; }
-        .contact-form { margin-top: 30px; display: flex; flex-direction: column; gap: 15px; text-align: left; }
+        .contact-box { text-align: center; max-width: 600px; margin: 0 auto; }
+        .contact-form { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; text-align: left; }
         input, textarea {
-            width: 100%; background: var(--card-bg); border: 1px solid transparent;
-            padding: 12px 15px; color: var(--text-highlight); font-family: var(--font-mono); border-radius: 4px; font-size: 0.9rem;
+            width: 100%; background: var(--card-bg); border: 1px solid rgba(136, 146, 176, 0.1);
+            padding: 15px; color: var(--text-highlight); font-family: var(--font-mono); border-radius: 4px; font-size: 1rem;
+            transition: var(--transition);
         }
-        input:focus, textarea:focus { outline: none; border-color: var(--accent); background: rgba(17, 34, 64, 0.8); }
-        .contact-form button { margin-top: 10px; }
+        input:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+        
+        .social-links { margin-top: 50px; font-size: 1.8rem; display: flex; justify-content: center; gap: 30px; }
+        .social-links a:hover { color: var(--accent); transform: translateY(-5px); }
 
         /* --- UTILS --- */
-        .hidden { opacity: 0; transform: translateY(20px); transition: 0.8s; }
+        .hidden { opacity: 0; transform: translateY(30px); transition: 0.8s; }
         .show { opacity: 1; transform: translateY(0); }
         
         #scroll-top {
-            position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px;
+            position: fixed; bottom: 40px; right: 40px; width: 50px; height: 50px;
             background: var(--nav-glass); color: var(--accent); border: 1px solid var(--accent);
-            border-radius: 5px; cursor: none; display: flex; justify-content: center; align-items: center;
+            border-radius: 5px; cursor: pointer; display: flex; justify-content: center; align-items: center;
             opacity: 0; pointer-events: none; transition: var(--transition); z-index: 999;
+            backdrop-filter: blur(5px);
         }
         #scroll-top.visible { opacity: 1; pointer-events: auto; }
+        #scroll-top:hover { background: var(--accent-glow); transform: translateY(-3px); }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 1080px) {
+            section { padding: 80px 80px; }
+        }
 
         @media (max-width: 768px) {
-            section { padding: 60px 6%; }
-            #hero { padding-top: 0; }
-            .about-grid { grid-template-columns: 1fr; }
-            .about-img-wrapper { margin-top: 30px; }
-            .nav-links { display: none; } 
-            .lang-float { top: auto; bottom: 30px; right: 20px; flex-direction: row; }
-            #scroll-top { bottom: 80px; right: 20px; }
-            .hero h1 { font-size: 40px; }
+            nav { padding: 0 25px; height: 70px; }
+            section { padding: 60px 25px; }
+            
+            .nav-links { display: none; } /* Desktop menu gizle */
+            .hamburger { display: flex; } /* Mobil icon göster */
+            
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .about-img-wrapper { margin: 30px auto 0; width: 70%; }
+            .section-header::after { width: 100px; }
+            
+            /* Mobilde butonlar tam genişlikte daha iyi durur */
+            .contact-form .btn { width: 100%; } 
+            
+            /* Scroll top butonu mobilde daha küçük */
+            #scroll-top { bottom: 20px; right: 20px; width: 40px; height: 40px; }
         }
     </style>
 </head>
@@ -221,23 +306,46 @@
     <div class="cursor-dot" data-cursor-dot></div>
     <div class="cursor-outline" data-cursor-outline></div>
 
-    <div class="lang-float">
-        <div class="lang-opt active" id="btn-en">EN</div>
-        <div class="lang-opt" id="btn-tr">TR</div>
-    </div>
+    <div class="blur-overlay" id="blurOverlay"></div>
 
-    <button id="scroll-top" onclick="window.scrollTo(0,0)"><i class="fas fa-arrow-up"></i></button>
+    <button id="scroll-top" onclick="window.scrollTo(0,0)" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
 
     <nav>
         <div class="logo">FS.</div>
-        <ul class="nav-links">
-            <li><a href="#about"><span style="color:var(--accent)">01.</span> <span data-i18n="nav_about">About</span></a></li>
-            <li><a href="#experience"><span style="color:var(--accent)">02.</span> <span data-i18n="nav_exp">Experience</span></a></li>
-            <li><a href="#projects"><span style="color:var(--accent)">03.</span> <span data-i18n="nav_work">Work</span></a></li>
-            <li><a href="#contact"><span style="color:var(--accent)">04.</span> <span data-i18n="nav_contact">Contact</span></a></li>
-        </ul>
-        <button class="theme-btn" id="theme-toggle"><i class="fas fa-moon"></i></button>
+        
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#about" onclick="closeMenu()"><span>01.</span><span data-i18n="nav_about">About</span></a></li>
+                <li><a href="#experience" onclick="closeMenu()"><span>02.</span><span data-i18n="nav_exp">Experience</span></a></li>
+                <li><a href="#projects" onclick="closeMenu()"><span>03.</span><span data-i18n="nav_work">Work</span></a></li>
+                <li><a href="#contact" onclick="closeMenu()"><span>04.</span><span data-i18n="nav_contact">Contact</span></a></li>
+            </ul>
+
+            <div class="nav-controls">
+                <div class="lang-switch">
+                    <div class="lang-opt active" id="btn-en">EN</div>
+                    <div class="lang-opt" id="btn-tr">TR</div>
+                </div>
+
+                <button class="theme-btn" id="theme-toggle" aria-label="Toggle Theme"><i class="fas fa-moon"></i></button>
+                
+                <div class="hamburger" id="hamburgerBtn">
+                    <div></div><div></div><div></div>
+                </div>
+            </div>
+        </div>
     </nav>
+
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <ul class="nav-links" style="display:flex;"> <li><a href="#about" onclick="closeMenu()"><span>01.</span><span data-i18n="nav_about">About</span></a></li>
+            <li><a href="#experience" onclick="closeMenu()"><span>02.</span><span data-i18n="nav_exp">Experience</span></a></li>
+            <li><a href="#projects" onclick="closeMenu()"><span>03.</span><span data-i18n="nav_work">Work</span></a></li>
+            <li><a href="#contact" onclick="closeMenu()"><span>04.</span><span data-i18n="nav_contact">Contact</span></a></li>
+            <li>
+                <a href="./Fatih_Semirgin_CV.pdf" target="_blank" class="btn" style="margin-top: 20px;">Resume</a>
+            </li>
+        </ul>
+    </div>
 
     <section id="hero">
         <div class="hero-content">
@@ -257,17 +365,17 @@
         <div class="about-grid hidden">
             <div class="about-text">
                 <p data-i18n="about_p1">
-                    Hello! I'm Fatih. My journey in software engineering began at **Dokuz Eylül University**, 
+                    Hello! I'm Fatih. My journey in software engineering began at <strong style="color:var(--accent)">Dokuz Eylül University</strong>, 
                     where I built a strong foundation in algorithms and data structures.
                 </p>
                 <br>
                 <p data-i18n="about_p2">
-                    Currently, I work at **IBTECH** as a Mid-Level Software Engineer. My focus is on creating 
+                    Currently, I work at <strong style="color:var(--accent)">IBTECH</strong> as a Mid-Level Software Engineer. My focus is on creating 
                     clean, maintainable code for complex web architectures. I'm passionate about bridging 
                     backend logic with seamless frontend experiences.
                 </p>
                 
-                <h3 style="margin-top:25px; color:var(--text-highlight); font-size:1rem; font-family:var(--font-mono);" data-i18n="skills_title">Tech Stack</h3>
+                <h3 style="margin-top:25px; color:var(--text-highlight); font-size:1rem; font-family:var(--font-mono);" data-i18n="skills_title">Here are a few technologies I've been working with recently:</h3>
                 <div class="skills-grid">
                     <span class="skill-tag">JavaScript (ES6+)</span>
                     <span class="skill-tag">React</span>
@@ -280,7 +388,6 @@
                 </div>
             </div>
             <div class="about-img-wrapper">
-                
                 <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Fatih Semirgin Profile">
             </div>
         </div>
@@ -299,7 +406,7 @@
         </p>
         <div class="projects-grid" id="github-container">
             </div>
-        <div class="view-more-container hidden">
+        <div class="view-more-container hidden" style="text-align: center; margin-top: 50px;">
             <a href="https://github.com/fatihsemirgin?tab=repositories" target="_blank" class="btn" data-i18n="btn_view_all">View All Repositories</a>
         </div>
     </section>
@@ -307,25 +414,25 @@
     <section id="contact">
         <h2 class="section-header hidden" data-num="04." data-i18n="nav_contact">Contact</h2>
         <div class="contact-box hidden">
-            <h1 style="font-size: 36px; color: var(--text-highlight); margin-bottom: 15px;" data-i18n="contact_head">Get In Touch</h1>
-            <p data-i18n="contact_p" style="margin-bottom: 20px;">
+            <h1 style="font-size: clamp(30px, 5vw, 50px); color: var(--text-highlight); margin-bottom: 15px; font-weight: 700;" data-i18n="contact_head">Get In Touch</h1>
+            <p data-i18n="contact_p" style="margin-bottom: 20px; color: var(--text-main);">
                 I'm currently open to new opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
             </p>
             
             <form class="contact-form" id="contactForm">
-                <input type="text" id="inp_name" placeholder="Name" required>
-                <input type="email" id="inp_email" placeholder="Email" required>
-                <textarea rows="5" id="inp_msg" placeholder="Message" required></textarea>
+                <input type="text" id="inp_name" placeholder="Name" required aria-label="Name">
+                <input type="email" id="inp_email" placeholder="Email" required aria-label="Email">
+                <textarea rows="5" id="inp_msg" placeholder="Message" required aria-label="Message"></textarea>
                 <button type="submit" class="btn" data-i18n="btn_send">Send Message</button>
             </form>
 
-            <div style="margin-top: 40px; font-size: 1.5rem;">
-                <a href="https://github.com/fatihsemirgin" target="_blank" style="margin:0 12px"><i class="fab fa-github"></i></a>
-                <a href="https://linkedin.com/in/fatihsemirgin" target="_blank" style="margin:0 12px"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:fatih.semirgin@gmail.com" style="margin:0 12px"><i class="fas fa-envelope"></i></a>
+            <div class="social-links">
+                <a href="https://github.com/fatihsemirgin" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/fatihsemirgin" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="mailto:fatih.semirgin@gmail.com" aria-label="Email"><i class="fas fa-envelope"></i></a>
             </div>
             <br>
-            <a href="./Fatih_Semirgin_CV-1-1.pdf" target="_blank" class="btn" data-i18n="btn_cv" style="margin-top:10px">Download CV</a>
+            <a href="./Fatih_Semirgin_CV.pdf" target="_blank" class="btn" data-i18n="btn_cv" style="margin-top:20px; padding: 10px 20px; font-size: 12px;">Download CV</a>
         </div>
     </section>
 
@@ -337,15 +444,15 @@
                 hero_hi: "Hi, my name is",
                 hero_role: "Software Engineer | Full-Stack Developer.",
                 hero_desc: "I'm a Computer Engineering graduate from Dokuz Eylül University and currently a Software Engineer at IBTECH. I specialize in building scalable, performance-driven in-house web applications.",
-                hero_cta: "Explore My Work",
-                about_p1: "Hello! I'm Fatih. My journey in software engineering began at **Dokuz Eylül University**, where I built a strong foundation in algorithms and data structures.",
-                about_p2: "Currently, I work at **IBTECH** as a Mid-Level Software Engineer. My focus is on creating clean, maintainable code for complex web architectures.",
-                skills_title: "Tech Stack",
+                hero_cta: "Check out my course!",
+                about_p1: "Hello! I'm Fatih. My journey in software engineering began at <strong style='color:var(--accent)'>Dokuz Eylül University</strong>, where I built a strong foundation in algorithms and data structures.",
+                about_p2: "Currently, I work at <strong style='color:var(--accent)'>IBTECH</strong> as a Mid-Level Software Engineer. My focus is on creating clean, maintainable code for complex web architectures.",
+                skills_title: "Here are a few technologies I've been working with recently:",
                 contact_head: "Get In Touch",
                 contact_p: "I'm currently open to new opportunities. Whether you have a question or just want to say hi, my inbox is always open!",
                 btn_send: "Send Message",
                 btn_cv: "Download CV",
-                btn_view_all: "View All Repositories", // Yeni buton çevirisi
+                btn_view_all: "View All Repositories",
                 github_msg: "Latest public repositories from GitHub:",
                 ph_name: "Name", ph_email: "Email", ph_msg: "Message"
             },
@@ -355,14 +462,14 @@
                 hero_role: "Yazılım Mühendisi | Full-Stack Geliştirici.",
                 hero_desc: "Dokuz Eylül Üniversitesi Bilgisayar Mühendisliği mezunuyum ve şu anda IBTECH'te Yazılım Mühendisi olarak çalışıyorum. Ölçeklenebilir, performans odaklı kurum içi web uygulamaları geliştiriyorum.",
                 hero_cta: "Projelerimi İncele",
-                about_p1: "Selam! Ben Fatih. Yazılım mühendisliği serüvenim **Dokuz Eylül Üniversitesi**'nde, algoritma ve veri yapıları üzerine sağlam bir temel atarak başladı.",
-                about_p2: "Şu anda **IBTECH** bünyesinde Mid-Level Yazılım Mühendisi olarak çalışıyorum. Karmaşık web mimarileri için temiz ve sürdürülebilir kod yazmaya odaklanıyorum.",
-                skills_title: "Teknoloji Yığını",
+                about_p1: "Selam! Ben Fatih. Yazılım mühendisliği serüvenim <strong style='color:var(--accent)'>Dokuz Eylül Üniversitesi</strong>'nde, algoritma ve veri yapıları üzerine sağlam bir temel atarak başladı.",
+                about_p2: "Şu anda <strong style='color:var(--accent)'>IBTECH</strong> bünyesinde Yazılım Mühendisi olarak çalışıyorum. Karmaşık web mimarileri için temiz ve sürdürülebilir kod yazmaya odaklanıyorum.",
+                skills_title: "Yakın zamanda kullandığım bazı teknolojiler:",
                 contact_head: "İletişime Geç",
                 contact_p: "Şu anda yeni fırsatlara açığım. İster bir sorunuz olsun ister sadece merhaba demek isteyin, mesajlarınızı bekliyorum!",
                 btn_send: "Mesaj Gönder",
                 btn_cv: "CV İndir",
-                btn_view_all: "Tüm Depoları Gör", // Yeni buton çevirisi
+                btn_view_all: "Tüm Depoları Gör",
                 github_msg: "GitHub'dan çekilen güncel projeler:",
                 ph_name: "Adınız", ph_email: "E-posta", ph_msg: "Mesajınız"
             }
@@ -371,35 +478,29 @@
         // --- 2. DENEYİM VERİSİ ---
         const experienceData = [
             {
-                title_en: "Mid-Level Software Engineer",
-                title_tr: "Yazılım Mühendisi",
+                title_en: "Mid-Level Software Engineer", title_tr: "Yazılım Mühendisi",
                 company: "@ IBTECH",
-                date_en: "2023 - Present",
-                date_tr: "2023 - Günümüz",
+                date_en: "2023 - Present", date_tr: "2023 - Günümüz",
                 desc_en: "Developing scalable in-house web platforms. Focusing on backend performance (ASP.NET Core) and responsive frontend interfaces.",
                 desc_tr: "Kurum içi web platformlarının geliştirilmesi. Backend performansı (ASP.NET Core) ve responsive arayüzler üzerine çalışmalar."
             },
             {
-                title_en: "Earthquake Early Warning System",
-                title_tr: "Deprem Erken Uyarı Sistemi",
+                title_en: "Earthquake Early Warning System", title_tr: "Deprem Erken Uyarı Sistemi",
                 company: "@ GBYF 2024 (Finalist)",
-                date_en: "2024",
-                date_tr: "2024",
-                desc_en: "Developed a real-time IoT and web-based alert system. Selected as a finalist project.",
-                desc_tr: "IoT ve Web tabanlı gerçek zamanlı uyarı sistemi geliştirildi. Finalist proje olarak seçildi."
+                date_en: "2024", date_tr: "2024",
+                desc_en: "Developed a real-time IoT and web-based alert system using Python and React. Selected as a finalist project.",
+                desc_tr: "Python ve React kullanarak IoT ve Web tabanlı gerçek zamanlı uyarı sistemi geliştirildi. Finalist proje olarak seçildi."
             },
             {
-                title_en: "B.Sc. Computer Engineering",
-                title_tr: "Bilgisayar Mühendisliği",
+                title_en: "B.Sc. Computer Engineering", title_tr: "Bilgisayar Mühendisliği",
                 company: "@ Dokuz Eylül University",
-                date_en: "2019 - 2023",
-                date_tr: "2019 - 2023",
-                desc_en: "Specialized in Software Architecture and Data Structures.",
-                desc_tr: "Yazılım Mimarisi ve Veri Yapıları üzerine uzmanlaşmış eğitim."
+                date_en: "2019 - 2023", date_tr: "2019 - 2023",
+                desc_en: "Specialized in Software Architecture, Algorithms and Data Structures.",
+                desc_tr: "Yazılım Mimarisi, Algoritmalar ve Veri Yapıları üzerine uzmanlaşmış eğitim."
             }
         ];
 
-        // --- 3. DİL YÖNETİMİ ---
+        // --- 3. DİL & AYARLAR ---
         let currentLang = localStorage.getItem('lang') || 'en';
 
         function setLanguage(lang) {
@@ -424,11 +525,10 @@
         document.getElementById('btn-en').addEventListener('click', () => setLanguage('en'));
         document.getElementById('btn-tr').addEventListener('click', () => setLanguage('tr'));
 
-        // --- 4. DENEYİM RENDER ---
+        // --- 4. RENDER FUNCTIONS ---
         function renderExperience(lang) {
             const container = document.getElementById('experience-container');
             let html = '';
-
             experienceData.forEach(job => {
                 const title = lang === 'en' ? job.title_en : job.title_tr;
                 const date = lang === 'en' ? job.date_en : job.date_tr;
@@ -439,21 +539,19 @@
                     <h3 class="job-title">${title}</h3>
                     <span class="job-company">${job.company}</span>
                     <span class="job-date">${date}</span>
-                    <p style="font-size:0.95rem; color:var(--text-main);">${desc}</p>
-                </div>
-                `;
+                    <p style="font-size:0.95rem; color:var(--text-main); line-height:1.5;">${desc}</p>
+                </div>`;
             });
             container.innerHTML = html;
         }
 
-        // --- 5. GITHUB API ---
         async function fetchGitHubRepos() {
             const container = document.getElementById('github-container');
             const username = 'fatihsemirgin';
-            
             const fallbackProjects = [
-                { name: "YEF Bank", description: "Banking simulation app with .NET Core.", language: "C#", html_url: "#", stargazers_count: 5 },
-                { name: "Hospital App", description: "Patient tracking system.", language: "React", html_url: "#", stargazers_count: 3 }
+                { name: "YEF Bank", description: "Banking simulation app with .NET Core & React architecture.", language: "C#", html_url: "#", stargazers_count: 5 },
+                { name: "Hospital App", description: "Comprehensive patient tracking system.", language: "React", html_url: "#", stargazers_count: 3 },
+                { name: "Portfolio V1", description: "My first portfolio website built with vanilla JS.", language: "HTML", html_url: "#", stargazers_count: 2 }
             ];
 
             try {
@@ -461,24 +559,25 @@
                 if (!response.ok) throw new Error('GitHub API Failed');
                 let repos = await response.json();
                 if (repos.length === 0) repos = fallbackProjects;
+                
+                // Filtreleme: Forklanmış projeleri göstermek istemiyorsan !repo.fork ekleyebilirsin
                 const displayRepos = repos.slice(0, 6); 
 
                 container.innerHTML = displayRepos.map(repo => `
-                    <div class="project-card hidden">
+                    <div class="project-card hidden" onclick="window.open('${repo.html_url}', '_blank')">
                         <div class="card-top">
                             <i class="far fa-folder folder-icon"></i>
-                            <a href="${repo.html_url}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="${repo.html_url}" target="_blank" aria-label="External Link"><i class="fas fa-external-link-alt"></i></a>
                         </div>
                         <h3 class="project-title">${repo.name}</h3>
-                        <p class="project-desc">${repo.description || "No description available."}</p>
+                        <p class="project-desc">${repo.description ? repo.description.substring(0, 100) + (repo.description.length > 100 ? '...' : '') : "No description available."}</p>
                         <div class="project-stats">
-                            <span><span class="repo-lang-circle"></span>${repo.language || 'Code'}</span>
+                            <span>${repo.language || 'Code'}</span>
                             <span><i class="fas fa-star"></i> ${repo.stargazers_count}</span>
                         </div>
                     </div>
                 `).join('');
                 observeElements();
-
             } catch (error) {
                 container.innerHTML = fallbackProjects.map(repo => `
                     <div class="project-card hidden">
@@ -489,7 +588,7 @@
                         <h3 class="project-title">${repo.name}</h3>
                         <p class="project-desc">${repo.description}</p>
                         <div class="project-stats">
-                            <span><span class="repo-lang-circle"></span>${repo.language}</span>
+                            <span>${repo.language}</span>
                             <span><i class="fas fa-star"></i> ${repo.stargazers_count}</span>
                         </div>
                     </div>
@@ -498,16 +597,51 @@
             }
         }
 
-        // --- 6. GÖRSEL EFEKTLER ---
+        // --- 5. UI INTERACTIONS ---
         function observeElements() {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('show');
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        observer.unobserve(entry.target); // Sadece bir kere animasyon oynasın
+                    }
                 });
-            });
+            }, { threshold: 0.1 });
             document.querySelectorAll('.hidden').forEach(el => observer.observe(el));
         }
 
+        // Mobile Menu Logic
+        const hamburger = document.getElementById('hamburgerBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const blurOverlay = document.getElementById('blurOverlay');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            blurOverlay.classList.toggle('active');
+            document.body.classList.toggle('menu-open');
+            
+            // Hamburger animasyonu (basit bir transform)
+            const divs = hamburger.querySelectorAll('div');
+            if(mobileMenu.classList.contains('active')){
+               // CSS class ile yapılabilir ama hızlıca inline:
+               divs[0].style.transform = 'rotate(45deg) translate(5px, 6px)';
+               divs[1].style.opacity = '0';
+               divs[2].style.transform = 'rotate(-45deg) translate(5px, -6px)';
+            } else {
+               divs[0].style.transform = 'none';
+               divs[1].style.opacity = '1';
+               divs[2].style.transform = 'none';
+            }
+        }
+
+        function closeMenu() {
+            if(mobileMenu.classList.contains('active')) toggleMenu();
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        blurOverlay.addEventListener('click', closeMenu);
+
+        // Scroll Top & Theme
         window.addEventListener('scroll', () => {
             const btn = document.getElementById('scroll-top');
             if (window.scrollY > 300) btn.classList.add('visible');
@@ -522,32 +656,43 @@
             icon.classList.toggle('fa-sun');
         });
 
+        // Mouse Move Effect
         const cursorDot = document.querySelector('[data-cursor-dot]');
         const cursorOutline = document.querySelector('[data-cursor-outline]');
+        
         window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+            // Sadece desktop'ta çalıştır
+            if (window.matchMedia("(pointer: fine)").matches) {
+                const posX = e.clientX;
+                const posY = e.clientY;
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+            }
         });
 
+        // Form Submission Simulation
         document.getElementById('contactForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const btn = e.target.querySelector('button');
             const originalText = btn.innerText;
             btn.innerText = currentLang === 'en' ? "Sending..." : "Gönderiliyor...";
+            btn.disabled = true;
             setTimeout(() => {
-                btn.innerText = "✓";
+                btn.innerText = "Message Sent! ✓";
                 btn.style.color = "var(--accent)";
+                btn.style.borderColor = "var(--accent)";
                 setTimeout(() => {
                     btn.innerText = originalText;
                     btn.style.color = "";
+                    btn.style.borderColor = "";
+                    btn.disabled = false;
                     e.target.reset();
-                }, 2000);
-            }, 1000);
+                }, 3000);
+            }, 1500);
         });
 
+        // Init
         window.addEventListener('DOMContentLoaded', () => {
             setLanguage(currentLang);
             fetchGitHubRepos();
