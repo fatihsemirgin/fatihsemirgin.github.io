@@ -70,10 +70,10 @@
 
         .controls-area {
             position: absolute; bottom: 30px; width: 100%;
-            display: flex; justify-content: space-between; padding: 0 50px; box-sizing: border-box;
-            pointer-events: none; z-index: 10;
+            display: flex; justify-content: center; padding: 0 50px; box-sizing: border-box;
+            pointer-events: none; z-index: 10;gap:9px;
         }
-        .control-group { pointer-events: auto; display: flex; gap: 25px; }
+        .control-group { pointer-events: auto; display: flex; gap: 7px; }
         .game-btn {
             width: 90px; height: 90px;
             background: rgba(255,255,255,0.95); border: 2px solid #eee;
@@ -91,7 +91,7 @@
     <div id="top-bar" class="ui-panel">
         <div class="hud-item"><span class="hud-label">LEVEL</span><span class="hud-val" id="level-display">1</span></div>
         <div class="hud-item"><span class="hud-label">KM/H</span><span class="hud-val" id="speed-display">0</span></div>
-        <button id="engine-btn" class="action-btn" onclick="toggleEngine()">MOTOR BAŞLAT</button>
+        <button id="engine-btn" class="action-btn" style="display:none" onclick="toggleEngine()">MOTOR BAŞLAT</button>
         <button id="music-btn" class="action-btn" onclick="toggleMusic()">RADYO AÇ</button>
     </div>
 
